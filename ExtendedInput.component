@@ -1,0 +1,26 @@
+{
+    "key":"extendedinput",
+    "legacyScriptURL":"http://localhost:8080/extendedinput_leg.js",
+    "scriptURL":"http://localhost:8080/extendedinput_ng.js",
+    "legacyStyleSheetURL":"",
+    "styleSheetURL":"",
+    "icon":"Textbox",
+    "attributes":{
+        "max":"Maximum Value",
+        "min":"Minimum Value",
+        "mask":"Mask",
+        "step":"Step Increment"
+    },
+    "configurationEditors":["LABEL","HINT_VALUE","EDITABLE","HELP_INFO","STATE_VALUE"],
+    "designTimeImageURL":"",
+    "designTimeRenderType":"INPUT",
+    "dateCreated":"2025-01-16T14:22:32.897934+00:00",
+    "dateModified":"2025-01-16T15:28:11.3443893+00:00",
+    "id":"bc1d0387-dbaa-4c7e-8a2c-4488efc9d97d",
+    "elementType":"CUSTOM_PAGE_COMPONENT",
+    "developerName":"Extended Input",
+    "developerSummary":"An enhanced simple input component",
+    "whoCreated":{"id":"4e027512-3134-4403-91c2-227e8256a7f0","firstName":"Mark","lastName":"Watts","email":"markwatts@boomi.com"},
+    "whoModified":{"id":"4e027512-3134-4403-91c2-227e8256a7f0","firstName":"Mark","lastName":"Watts","email":"markwatts@boomi.com"},
+    "whoOwner":{"id":"4e027512-3134-4403-91c2-227e8256a7f0","firstName":"Mark","lastName":"Watts","email":"markwatts@boomi.com"}
+}

@@ -1,0 +1,22 @@
+{
+  "name": "extendedinput",
+  "version": "1.0.0",
+  "description": "Extended Input",
+  "scripts": {
+    "start": "esbuild ./src/ExtendedInputNew.tsx --outfile=./build/extendedinput_ng.js --sourcemap=both --serve=8080 --servedir=build --bundle --format=esm --watch",
+    "build": "esbuild ./src/ExtendedInputNew.tsx --outfile=./build/extendedinput_ng.js --bundle  --format=esm",
+    "startLegacy": "esbuild ./src/ExtendedInputLegacy.tsx --outfile=./build/extendedinput_leg.js --sourcemap=both --serve=8080 --servedir=build --bundle --format=esm --watch",
+    "buildLegacy": "esbuild ./src/ExtendedInputLegacy.tsx --outfile=./build/extendedinput_leg.js --bundle  --format=esm ",
+    "buildAll": "npm run build & npm run buildLegacy"
+  },
+  "author": "Boomi",
+  "license": "MIT",
+  "dependencies": {
+    "fcmlib": "^1.0.94",
+    "react": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.28",
+    "esbuild": "0.19.4"
+  }
+}
