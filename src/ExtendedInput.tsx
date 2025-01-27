@@ -41,7 +41,7 @@ export default class _extendedinput extends React.Component<any,any> {
         min = parseInt(min);
         max = parseInt(max);
 
-        this.setState({min: min, max: max, step: step, isValid: true});
+        this.setState({min: min, max: max, step: step, value: this.component.getStateValue()});
     }
 
     getInputType(): string {
@@ -67,23 +67,26 @@ export default class _extendedinput extends React.Component<any,any> {
     }
 
     validate(e: any){
-        let isValid : boolean = true;
         let value: number = this.state.value;
-        let val: number = parseInt(e.target.value);
-        if(this.getInputType() === 'number'){
-            
-            if(this.state.min && val < this.state.min){
-                val = this.state.min;
-            }
+        let val: any = parseFloat(e.target.value);
+        if(!isNaN(val)){
+            if(this.getInputType() === 'number'){
+                
+                if(this.state.min && val < this.state.min){
+                    val = this.state.min;
+                }
 
-            if(this.state.max && val > this.state.max){
-                val = this.state.max;
+                if(this.state.max && val > this.state.max){
+                    val = this.state.max;
+                }
             }
         }
-        
-        this.setState({value: val}, () => {
-            this.component.setStateValue(val);
-        });
+        else {
+            val = "";
+        }
+
+        this.component.setStateValue(val);
+        this.setState({value: val});
     }
 
     render() {
