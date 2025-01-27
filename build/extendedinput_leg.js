@@ -3271,6 +3271,7 @@ var _extendedinput = class extends import_react2.default.Component {
     this.getInputType = this.getInputType.bind(this);
     this.onInput = this.onInput.bind(this);
     this.onBlur = this.onBlur.bind(this);
+    this.state = { min: null, max: null };
   }
   componentDidMount() {
     this.loadValues();
@@ -3279,6 +3280,13 @@ var _extendedinput = class extends import_react2.default.Component {
     this.loadValues();
   }
   async loadValues() {
+    let min = this.component.getAttribute("min");
+    let max = this.component.getAttribute("max");
+    let step = this.component.getAttribute("step");
+    min = await this.component.inflateValue(min);
+    max = await this.component.inflateValue(max);
+    step = await this.component.inflateValue(step);
+    this.setState({ min, max, step });
   }
   getInputType() {
     switch (this.component.contentType) {
@@ -3292,9 +3300,11 @@ var _extendedinput = class extends import_react2.default.Component {
   }
   onInput(e) {
     this.component.setStateValue(e.target.value);
+    this.forceUpdate();
   }
   onBlur(e) {
     this.component.setStateValue(e.target.value);
+    this.forceUpdate();
   }
   render() {
     let inputProps = {
@@ -3321,9 +3331,9 @@ var _extendedinput = class extends import_react2.default.Component {
       inputProps.size = this.component.size;
     }
     if (this.getInputType() === "number") {
-      inputProps.min = this.component.getAttribute("min");
-      inputProps.max = this.component.getAttribute("max");
-      inputProps.step = this.component.getAttribute("step");
+      inputProps.min = this.state.min;
+      inputProps.max = this.state.max;
+      inputProps.step = this.state.step;
     }
     return /* @__PURE__ */ import_react2.default.createElement(
       "input",
