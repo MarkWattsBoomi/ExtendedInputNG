@@ -3288,7 +3288,7 @@ var _extendedinput = class extends import_react2.default.Component {
     step = await this.component.inflateValue(step);
     min = parseInt(min);
     max = parseInt(max);
-    this.setState({ min, max, step, isValid: true });
+    this.setState({ min, max, step, value: this.component.getStateValue() });
   }
   getInputType() {
     switch (this.component.contentType) {
@@ -3307,20 +3307,22 @@ var _extendedinput = class extends import_react2.default.Component {
     this.validate(e);
   }
   validate(e) {
-    let isValid = true;
     let value = this.state.value;
-    let val = parseInt(e.target.value);
-    if (this.getInputType() === "number") {
-      if (this.state.min && val < this.state.min) {
-        val = this.state.min;
+    let val = parseFloat(e.target.value);
+    if (!isNaN(val)) {
+      if (this.getInputType() === "number") {
+        if (this.state.min && val < this.state.min) {
+          val = this.state.min;
+        }
+        if (this.state.max && val > this.state.max) {
+          val = this.state.max;
+        }
       }
-      if (this.state.max && val > this.state.max) {
-        val = this.state.max;
-      }
+    } else {
+      val = "";
     }
-    this.setState({ value: val }, () => {
-      this.component.setStateValue(val);
-    });
+    this.component.setStateValue(val);
+    this.setState({ value: val });
   }
   render() {
     let inputProps = {
