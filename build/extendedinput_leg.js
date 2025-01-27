@@ -3271,7 +3271,7 @@ var _extendedinput = class extends import_react2.default.Component {
     this.getInputType = this.getInputType.bind(this);
     this.onInput = this.onInput.bind(this);
     this.onBlur = this.onBlur.bind(this);
-    this.state = { min: null, max: null };
+    this.state = { min: null, max: null, value: this.component.getStateValue() };
   }
   componentDidMount() {
     this.loadValues();
@@ -3286,7 +3286,9 @@ var _extendedinput = class extends import_react2.default.Component {
     min = await this.component.inflateValue(min);
     max = await this.component.inflateValue(max);
     step = await this.component.inflateValue(step);
-    this.setState({ min, max, step });
+    min = parseInt(min);
+    max = parseInt(max);
+    this.setState({ min, max, step, isValid: true });
   }
   getInputType() {
     switch (this.component.contentType) {
@@ -3299,19 +3301,33 @@ var _extendedinput = class extends import_react2.default.Component {
     }
   }
   onInput(e) {
-    this.component.setStateValue(e.target.value);
-    this.forceUpdate();
+    this.validate(e);
   }
   onBlur(e) {
-    this.component.setStateValue(e.target.value);
-    this.forceUpdate();
+    this.validate(e);
+  }
+  validate(e) {
+    let isValid = true;
+    let value = this.state.value;
+    let val = parseInt(e.target.value);
+    if (this.getInputType() === "number") {
+      if (this.state.min && val < this.state.min) {
+        val = this.state.min;
+      }
+      if (this.state.max && val > this.state.max) {
+        val = this.state.max;
+      }
+    }
+    this.setState({ value: val }, () => {
+      this.component.setStateValue(val);
+    });
   }
   render() {
     let inputProps = {
       "data-testid": "page-component-input",
       className: "input form-control",
       id: this.component.id,
-      value: this.component?.getStateValue() ?? "",
+      value: this.state.value,
       placeholder: this.component.hintValue ?? "",
       onInput: this.onInput,
       onBlur: this.onBlur,
@@ -3364,7 +3380,7 @@ var extendedinput = class extends FCMLegacy {
           this.childComponent = element;
         }
       }
-    ), /* @__PURE__ */ React3.createElement("span", { className: "help-block" }, this.helpInfo));
+    ), /* @__PURE__ */ React3.createElement("span", { className: "help-block" }, this.validationMessage), /* @__PURE__ */ React3.createElement("span", { className: "help-block" }, this.helpInfo));
   }
 };
 manywho.component.register("extendedinput", extendedinput);

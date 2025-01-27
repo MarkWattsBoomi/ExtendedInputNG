@@ -24,6 +24,7 @@ class extendedinput extends FCMLegacy {
                         parent={this}
                         ref={(element: any) => {this.childComponent = element}} // here we are giving FCMCore a ref to our component
                     />
+                    <span className="help-block">{this.validationMessage}</span>
                     <span className="help-block">{this.helpInfo}</span>
             </div>
         );

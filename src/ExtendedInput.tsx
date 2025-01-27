@@ -18,7 +18,7 @@ export default class _extendedinput extends React.Component<any,any> {
         this.onInput = this.onInput.bind(this);
         this.onBlur = this.onBlur.bind(this);
 
-        this.state = {min: null, max: null}
+        this.state = {min: null, max: null, value: this.component.getStateValue()}
     }
 
     componentDidMount() {
@@ -30,15 +30,18 @@ export default class _extendedinput extends React.Component<any,any> {
     }
 
     async loadValues(){
-        let min = this.component.getAttribute("min");
-        let max = this.component.getAttribute("max");
+        let min : any = this.component.getAttribute("min");
+        let max : any = this.component.getAttribute("max");
         let step = this.component.getAttribute("step");
 
         min = await this.component.inflateValue(min);
         max = await this.component.inflateValue(max);
         step = await this.component.inflateValue(step);
 
-        this.setState({min: min, max: max, step: step});
+        min = parseInt(min);
+        max = parseInt(max);
+
+        this.setState({min: min, max: max, step: step, isValid: true});
     }
 
     getInputType(): string {
@@ -55,13 +58,32 @@ export default class _extendedinput extends React.Component<any,any> {
     };
 
     onInput(e: any){
-        this.component.setStateValue(e.target.value);
-        this.forceUpdate();
+        this.validate(e);
     }
 
     onBlur(e: any){
-        this.component.setStateValue(e.target.value);
-        this.forceUpdate();
+        this.validate(e);
+        
+    }
+
+    validate(e: any){
+        let isValid : boolean = true;
+        let value: number = this.state.value;
+        let val: number = parseInt(e.target.value);
+        if(this.getInputType() === 'number'){
+            
+            if(this.state.min && val < this.state.min){
+                val = this.state.min;
+            }
+
+            if(this.state.max && val > this.state.max){
+                val = this.state.max;
+            }
+        }
+        
+        this.setState({value: val}, () => {
+            this.component.setStateValue(val);
+        });
     }
 
     render() {
@@ -70,7 +92,7 @@ export default class _extendedinput extends React.Component<any,any> {
             'data-testid': 'page-component-input',
             className: 'input form-control',
             id: this.component.id,
-            value: this.component?.getStateValue() as string ?? '',
+            value: this.state.value,
             placeholder: this.component.hintValue ?? '',
             onInput: this.onInput,
             onBlur: this.onBlur,
