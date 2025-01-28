@@ -16,8 +16,12 @@ class extendedinput extends FCMLegacy {
     }
 
     render() {
+        let classname: string = "has-outcomes form-group ";
+        let classes: string[] = manywho.styling.getClasses(this.pageContainerId, this.id, "input", this.flowKey);
+        
+        classname += classes.join(" ");
         return(
-            <div className="mw-input has-outcomes form-group">
+            <div className={classname}>
                     <label htmlFor={this.id}>{this.label}</label>
                     <_extendedinput 
                         key={this.id}
