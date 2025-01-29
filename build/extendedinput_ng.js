@@ -3205,6 +3205,7 @@ var _extendedinput = class extends import_react2.default.Component {
     this.getInputType = this.getInputType.bind(this);
     this.onInput = this.onInput.bind(this);
     this.onBlur = this.onBlur.bind(this);
+    this.onKeyup = this.onKeyup.bind(this);
     this.state = { min: null, max: null, value: this.component.getStateValue() };
   }
   componentDidMount() {
@@ -3220,8 +3221,16 @@ var _extendedinput = class extends import_react2.default.Component {
     min = await this.component.inflateValue(min);
     max = await this.component.inflateValue(max);
     step = await this.component.inflateValue(step);
-    min = parseInt(min);
-    max = parseInt(max);
+    if (min.indexOf(".") >= 0) {
+      min = parseFloat(min);
+    } else {
+      min = parseInt(min);
+    }
+    if (max.indexOf(".") >= 0) {
+      max = parseFloat(max);
+    } else {
+      max = parseInt(max);
+    }
     this.setState({ min, max, step, value: this.component.getStateValue() });
   }
   getInputType() {
@@ -3239,6 +3248,16 @@ var _extendedinput = class extends import_react2.default.Component {
   }
   onBlur(e) {
     this.validate(e);
+  }
+  onKeyup(e) {
+    switch (e.key) {
+      case "Enter":
+        e.preventDefault();
+        e.stopPropagation();
+        break;
+      default:
+        break;
+    }
   }
   validate(e) {
     let value = this.state.value;
@@ -3267,6 +3286,7 @@ var _extendedinput = class extends import_react2.default.Component {
       placeholder: this.component.hintValue ?? "",
       onInput: this.onInput,
       onBlur: this.onBlur,
+      onKeyUp: this.onKeyup,
       type: this.getInputType(),
       readOnly: !this.component.isEditable,
       disabled: !this.component.isEnabled,

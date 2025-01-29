@@ -17,6 +17,7 @@ export default class _extendedinput extends React.Component<any,any> {
         this.getInputType = this.getInputType.bind(this);
         this.onInput = this.onInput.bind(this);
         this.onBlur = this.onBlur.bind(this);
+        this.onKeyup = this.onKeyup.bind(this);
 
         this.state = {min: null, max: null, value: this.component.getStateValue()}
     }
@@ -38,8 +39,21 @@ export default class _extendedinput extends React.Component<any,any> {
         max = await this.component.inflateValue(max);
         step = await this.component.inflateValue(step);
 
-        min = parseInt(min);
-        max = parseInt(max);
+        if(min.indexOf(".")>=0){
+            min = parseFloat(min);
+        }
+        else{
+            min = parseInt(min);
+        }
+
+        if(max.indexOf(".")>=0){
+            max = parseFloat(max);
+        }
+        else{
+            max = parseInt(max);
+        }
+        
+        
 
         this.setState({min: min, max: max, step: step, value: this.component.getStateValue()});
     }
@@ -66,6 +80,17 @@ export default class _extendedinput extends React.Component<any,any> {
         
     }
 
+    onKeyup(e: any){
+        switch(e.key){
+            case "Enter":
+                e.preventDefault();
+                e.stopPropagation();
+                break;
+            default:
+                break;
+        }
+    }
+
     validate(e: any){
         let value: number = this.state.value;
         let val: any = parseFloat(e.target.value);
@@ -84,7 +109,7 @@ export default class _extendedinput extends React.Component<any,any> {
         else {
             val = "";
         }
-
+        
         this.component.setStateValue(val);
         this.setState({value: val});
     }
@@ -99,6 +124,7 @@ export default class _extendedinput extends React.Component<any,any> {
             placeholder: this.component.hintValue ?? '',
             onInput: this.onInput,
             onBlur: this.onBlur,
+            onKeyUp: this.onKeyup,
             type: this.getInputType(),
             readOnly: !this.component.isEditable,
             disabled: !this.component.isEnabled,
