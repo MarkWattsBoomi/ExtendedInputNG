@@ -3272,13 +3272,15 @@ var _extendedinput = class extends import_react2.default.Component {
     this.onInput = this.onInput.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.onKeyup = this.onKeyup.bind(this);
-    this.state = { min: null, max: null, value: this.component.getStateValue() };
+    this.state = { min: null, max: null, value: null };
   }
   componentDidMount() {
     this.loadValues();
   }
-  componentUpdated() {
-    this.loadValues();
+  componentUpdated(changeDetected) {
+    if (changeDetected) {
+      this.loadValues();
+    }
   }
   async loadValues() {
     let min = this.component.getAttribute("min");
@@ -3297,7 +3299,7 @@ var _extendedinput = class extends import_react2.default.Component {
     } else {
       max = parseInt(max);
     }
-    this.setState({ min, max, step, value: this.component.getStateValue() });
+    this.setState({ min, max, step, value: this.component.contentValue });
   }
   getInputType() {
     switch (this.component.contentType) {
@@ -3389,7 +3391,7 @@ var extendedinput = class extends FCMLegacy {
   }
   componentUpdated(changeDetected) {
     if (this.childComponent && this.childComponent.componentUpdated) {
-      this.childComponent.componentUpdated();
+      this.childComponent.componentUpdated(changeDetected);
     }
   }
   render() {

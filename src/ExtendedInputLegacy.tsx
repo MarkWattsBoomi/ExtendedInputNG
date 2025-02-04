@@ -11,7 +11,7 @@ class extendedinput extends FCMLegacy {
 
     componentUpdated(changeDetected: boolean){
         if(this.childComponent && this.childComponent.componentUpdated){
-            this.childComponent.componentUpdated();
+            this.childComponent.componentUpdated(changeDetected);
         }
     }
 

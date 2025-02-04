@@ -19,15 +19,17 @@ export default class _extendedinput extends React.Component<any,any> {
         this.onBlur = this.onBlur.bind(this);
         this.onKeyup = this.onKeyup.bind(this);
 
-        this.state = {min: null, max: null, value: this.component.getStateValue()}
+        this.state = {min: null, max: null, value: null}
     }
 
     componentDidMount() {
         this.loadValues();
     }
 
-    componentUpdated() {
-        this.loadValues();
+    componentUpdated(changeDetected: boolean) {
+        if(changeDetected) {
+            this.loadValues();
+        }
     }
 
     async loadValues(){
@@ -55,7 +57,7 @@ export default class _extendedinput extends React.Component<any,any> {
         
         
 
-        this.setState({min: min, max: max, step: step, value: this.component.getStateValue()});
+        this.setState({min: min, max: max, step: step, value: this.component.contentValue});
     }
 
     getInputType(): string {
