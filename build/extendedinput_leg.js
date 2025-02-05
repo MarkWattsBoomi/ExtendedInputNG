@@ -3272,7 +3272,7 @@ var _extendedinput = class extends import_react2.default.Component {
     this.onInput = this.onInput.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.onKeyup = this.onKeyup.bind(this);
-    this.state = { min: null, max: null, value: null };
+    this.state = { min: null, max: null, value: this.component.contentValue || "" };
   }
   componentDidMount() {
     this.loadValues();

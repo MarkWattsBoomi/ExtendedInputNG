@@ -19,7 +19,7 @@ export default class _extendedinput extends React.Component<any,any> {
         this.onBlur = this.onBlur.bind(this);
         this.onKeyup = this.onKeyup.bind(this);
 
-        this.state = {min: null, max: null, value: null}
+        this.state = {min: null, max: null, value: this.component.contentValue || ""}
     }
 
     componentDidMount() {
